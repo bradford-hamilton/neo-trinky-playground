@@ -57,8 +57,8 @@ void loop()
   if (t1 > 500) {
     touch1_state = true;
     Serial.println("touchpad_1 touched");
-    strip.setPixelColor(2, 0xFF0000);
-    strip.setPixelColor(3, 0xFF0000);
+    strip.setPixelColor(2, 0x0000FF);
+    strip.setPixelColor(3, 0x0000FF);
     Keyboard.print(1);
   } else {
     touch1_state = false;
@@ -69,8 +69,8 @@ void loop()
 if (t2 > 500) {
     touch2_state = true;
     Serial.println("touchpad_2 touched");
-    strip.setPixelColor(0, 0xFF0000);
-    strip.setPixelColor(1, 0xFF0000);
+    strip.setPixelColor(0, 0x0000FF);
+    strip.setPixelColor(1, 0x0000FF);
     Keyboard.print(2);
   } else {
     touch2_state = false;
