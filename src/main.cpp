@@ -3,20 +3,20 @@
 #include "Adafruit_FreeTouch.h"
 #include "Keyboard.h"
 
-Adafruit_NeoPixel strip = Adafruit_NeoPixel{
+Adafruit_NeoPixel strip {
   NUM_NEOPIXEL,
   PIN_NEOPIXEL,
   NEO_GRB+NEO_KHZ800
 };
 
-Adafruit_FreeTouch touch_pad1 = Adafruit_FreeTouch{
+Adafruit_FreeTouch touch_pad1 {
   1,
   OVERSAMPLE_4,
   RESISTOR_50K,
   FREQ_MODE_NONE
 };
 
-Adafruit_FreeTouch touch_pad2 = Adafruit_FreeTouch{
+Adafruit_FreeTouch touch_pad2 {
   2,
   OVERSAMPLE_4,
   RESISTOR_50K,
@@ -26,6 +26,7 @@ Adafruit_FreeTouch touch_pad2 = Adafruit_FreeTouch{
 bool previous_touch1_state {false};
 bool previous_touch2_state {false};
 int touch_counter {0};
+uint32_t green {0x0000FF};
 
 void setup()
 {
@@ -42,7 +43,6 @@ void setup()
     Serial.println("Failed to begin touch2");
   }
 
-  // void begin(const uint8_t *layout = KeyboardLayout_en_US);
   Keyboard.begin();
 }
 
@@ -51,14 +51,14 @@ void loop()
   uint16_t t1 {touch_pad1.measure()};
   uint16_t t2 {touch_pad2.measure()};
 
-  bool touch1_state = false;
-  bool touch2_state = false;
+  bool touch1_state {false};
+  bool touch2_state {false};
 
   if (t1 > 500) {
     touch1_state = true;
     Serial.println("touchpad_1 touched");
-    strip.setPixelColor(2, 0x0000FF);
-    strip.setPixelColor(3, 0x0000FF);
+    strip.setPixelColor(2, green);
+    strip.setPixelColor(3, green);
     Keyboard.print(1);
   } else {
     touch1_state = false;
@@ -69,8 +69,8 @@ void loop()
 if (t2 > 500) {
     touch2_state = true;
     Serial.println("touchpad_2 touched");
-    strip.setPixelColor(0, 0x0000FF);
-    strip.setPixelColor(1, 0x0000FF);
+    strip.setPixelColor(0, green);
+    strip.setPixelColor(1, green);
     Keyboard.print(2);
   } else {
     touch2_state = false;
