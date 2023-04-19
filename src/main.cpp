@@ -26,7 +26,7 @@ Adafruit_FreeTouch touch_pad2 {
 bool previous_touch1_state {false};
 bool previous_touch2_state {false};
 int touch_counter {0};
-uint32_t green {0x0000FF};
+uint32_t blue {0x0000FF};
 
 void setup()
 {
@@ -57,8 +57,8 @@ void loop()
   if (t1 > 500) {
     touch1_state = true;
     Serial.println("touchpad_1 touched");
-    strip.setPixelColor(2, green);
-    strip.setPixelColor(3, green);
+    strip.setPixelColor(2, blue);
+    strip.setPixelColor(3, blue);
     Keyboard.print(1);
   } else {
     touch1_state = false;
@@ -66,11 +66,11 @@ void loop()
     strip.setPixelColor(3, 0x0);
   }
 
-if (t2 > 500) {
+  if (t2 > 500) {
     touch2_state = true;
     Serial.println("touchpad_2 touched");
-    strip.setPixelColor(0, green);
-    strip.setPixelColor(1, green);
+    strip.setPixelColor(0, blue);
+    strip.setPixelColor(1, blue);
     Keyboard.print(2);
   } else {
     touch2_state = false;
