@@ -23,10 +23,12 @@ Adafruit_FreeTouch touch_pad2 {
   FREQ_MODE_NONE
 };
 
-bool previous_touch1_state {false};
-bool previous_touch2_state {false};
-int touch_counter {0};
-uint32_t blue {0x0000FF};
+bool previous_touch_state {false};
+uint32_t pixel_blue {0x0000FF};
+uint32_t pixel_off {0x0};
+
+// Forward declaration
+void setAllPixelsToColor(uint32_t color);
 
 void setup()
 {
@@ -51,57 +53,27 @@ void loop()
   uint16_t t1 {touch_pad1.measure()};
   uint16_t t2 {touch_pad2.measure()};
 
-  bool touch1_state {false};
-  bool touch2_state {false};
+  bool touch_state {false};
 
-  if (t1 > 500) {
-    touch1_state = true;
-    Serial.println("touchpad_1 touched");
-    strip.setPixelColor(2, blue);
-    strip.setPixelColor(3, blue);
-    Keyboard.print(1);
+  if (t1 > 500 || t2 > 500) {
+    touch_state = true;
+    setAllPixelsToColor(pixel_blue);
   } else {
-    touch1_state = false;
-    strip.setPixelColor(2, 0x0);
-    strip.setPixelColor(3, 0x0);
-  }
-
-  if (t2 > 500) {
-    touch2_state = true;
-    Serial.println("touchpad_2 touched");
-    strip.setPixelColor(0, blue);
-    strip.setPixelColor(1, blue);
-    Keyboard.print(2);
-  } else {
-    touch2_state = false;
-    strip.setPixelColor(0, 0x0);
-    strip.setPixelColor(1, 0x0);
+    touch_state = false;
+    setAllPixelsToColor(pixel_off);
   }
 
   strip.show();
 
-  int touch1_counter {0};
-  int touch2_counter {0};
-
-  // If we're touching 1 and weren't before
-  if (touch1_state && !previous_touch1_state) {
-    touch1_counter++;
-    Serial.print("Touched #1");
-    Serial.print(touch1_counter);
-    Serial.println(" times.");
+  if (touch_state && !previous_touch_state) {
+    Keyboard.print("secrets from the stick");
   }
+  previous_touch_state = touch_state;
+}
 
-  // Save current touch state for comparison
-  previous_touch1_state = touch1_state;
-
-  // If we're touching 2 and weren't before
-  if (touch2_state && !previous_touch2_state) {
-    touch2_counter++;
-    Serial.print("Touched #1");
-    Serial.print(touch2_counter);
-    Serial.println(" times.");
+void setAllPixelsToColor(uint32_t color)
+{
+  for (uint8_t i {0}; i < 4; i++) {
+    strip.setPixelColor(i, color);
   }
-
-  // Save current touch state for comparison
-  previous_touch2_state = touch2_state;
 }
