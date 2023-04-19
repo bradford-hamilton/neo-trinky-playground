@@ -38,12 +38,8 @@ void setup()
   strip.setBrightness(20);
   strip.show(); // Nothing set, so all lights off
 
-  if (!touch_pad1.begin()) {
-    Serial.println("Failed to begin touch1");
-  }
-  if (!touch_pad2.begin()) {
-    Serial.println("Failed to begin touch2");
-  }
+  touch_pad1.begin();
+  touch_pad2.begin();
 
   Keyboard.begin();
 }
